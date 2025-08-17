@@ -1,0 +1,26 @@
+{
+  "name": "cc2-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "serve": "web-dev-server -p 8000 -r dev --open --watch --app-index dev/index.html",
+    "watch": "yarn esbuild src/index.jsx --bundle --outfile=dev/index.js --watch --jsx=automatic"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^3.24.1",
+    "@emotion/react": "^11.14.0",
+    "@web/dev-server": "^0.4.6",
+    "esbuild": "^0.25.6",
+    "next-themes": "^0.4.6",
+    "pocketbase": "^0.26.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-router": "^7.7.0"
+  },
+  "packageManager": "yarn@3.8.7",
+  "devDependencies": {
+    "@chakra-ui/cli": "^3.24.1"
+  }
+}

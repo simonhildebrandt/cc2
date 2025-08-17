@@ -1,0 +1,2 @@
+To run:
+`./pocketbase serve`

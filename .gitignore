@@ -137,3 +137,7 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+*/**/.yarn
+packages/server/pb_data/*
+packages/server/pocketbase*
