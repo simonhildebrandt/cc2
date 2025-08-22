@@ -89,6 +89,10 @@ const ClocksPage = () => {
     navigate(`/clocks/${clockId}/show`);
   }
 
+  function handleDelete(id) {
+    pb.collection("clocks").delete(id);
+  }
+
   return (
     <Layout authed={true}>
       <Flex width="100%" height="100%" flexDirection="column">
@@ -143,7 +147,7 @@ const ClocksPage = () => {
                         {clock.granularity_minutes}min - {clock.range} hour -{" "}
                         {clock.mode}
                       </Flex>
-                      <DeleteControl />
+                      <DeleteControl onDelete={() => handleDelete(clock.id)} />
                     </Flex>
                   </Flex>
                 </Flex>
