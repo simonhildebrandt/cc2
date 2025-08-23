@@ -8,33 +8,42 @@ import {
   createListCollection,
 } from "@chakra-ui/react";
 import { LuCheck, LuPencilLine, LuX } from "react-icons/lu";
-import { TbClock12 } from "react-icons/tb";
+import {
+  TbNumber1Small,
+  TbNumber5Small,
+  TbNumber10Small,
+  TbNumber15Small,
+  TbClock12,
+  TbClock24,
+} from "react-icons/tb";
+import { PiStop, PiSquareSplitHorizontal } from "react-icons/pi";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router";
 
 import { AuthContext } from "../services/auth-provider";
+import IconGroup from "./icon-group";
 
 const granularityOptions = createListCollection({
   items: [
-    { label: "1 minute", value: 1 },
-    { label: "5 minutes", value: 5 },
-    { label: "10 minutes", value: 10 },
-    { label: "15 minutes", value: 15 },
+    { label: "1 minute", value: 1, icon: <TbNumber1Small /> },
+    { label: "5 minutes", value: 5, icon: <TbNumber5Small /> },
+    { label: "10 minutes", value: 10, icon: <TbNumber10Small /> },
+    { label: "15 minutes", value: 15, icon: <TbNumber15Small /> },
   ],
 });
 
 const modeOptions = createListCollection({
   items: [
-    { label: "Split", value: "split" },
-    { label: "Single", value: "single" },
+    { label: "Split", value: "split", icon: <PiSquareSplitHorizontal /> },
+    { label: "Single", value: "single", icon: <PiStop /> },
   ],
 });
 
 const rangeOptions = createListCollection({
   items: [
-    { label: "12 Hour", value: "12" },
-    { label: "24 Hour", value: "24" },
+    { label: "12 Hour", value: "12", icon: <TbClock12 /> },
+    { label: "24 Hour", value: "24", icon: <TbClock24 /> },
   ],
 });
 
@@ -79,130 +88,75 @@ export default function ({ clockId }) {
 
   return (
     <>
-      <Flex>
-        <IconButton variant="subtle" mr={4} onClick={() => navigate("/clocks")}>
-          <FaAngleLeft size="24px" />
-        </IconButton>
-        <IconButton
-          variant="subtle"
-          mr={4}
-          onClick={() => navigate(`/clocks/${clockId}/show`)}
-        >
-          <FaEye size="24px" />
-        </IconButton>
-        <Editable.Root
-          size="xl"
-          defaultValue={clock.name}
-          onValueCommit={saveName}
-        >
-          <Editable.Preview>
-            <Heading>{clock.name}</Heading>
-          </Editable.Preview>
-          <Editable.Input />
-          <Editable.Control>
-            <Editable.EditTrigger asChild>
-              <IconButton variant="ghost" size="xs">
-                <LuPencilLine />
-              </IconButton>
-            </Editable.EditTrigger>
-            <Editable.CancelTrigger asChild>
-              <IconButton variant="outline" size="xs">
-                <LuX />
-              </IconButton>
-            </Editable.CancelTrigger>
-            <Editable.SubmitTrigger asChild>
-              <IconButton variant="outline" size="xs">
-                <LuCheck />
-              </IconButton>
-            </Editable.SubmitTrigger>
-          </Editable.Control>
-        </Editable.Root>
-      </Flex>
-      <Flex gap={4}>
+      <Flex gap={2} alignItems="center" flexGrow={1} wrap="wrap">
         <Flex>
-          {/* TODO: switch to TbClock12 buttons */}
-          <Select.Root
+          <IconButton
+            variant="subtle"
+            mr={4}
+            onClick={() => navigate("/clocks")}
+          >
+            <FaAngleLeft size="24px" />
+          </IconButton>
+          <IconButton
+            variant="subtle"
+            mr={4}
+            onClick={() => navigate(`/clocks/${clockId}/show`)}
+          >
+            <FaEye size="24px" />
+          </IconButton>
+        </Flex>
+
+        <Flex flexGrow={1}>
+          <Editable.Root
+            size="xl"
+            defaultValue={clock.name}
+            onValueCommit={saveName}
+          >
+            <Editable.Preview>
+              <Heading>{clock.name}</Heading>
+            </Editable.Preview>
+            <Editable.Input minWidth="100px" />
+            <Editable.Control>
+              <Editable.EditTrigger asChild>
+                <IconButton variant="ghost" size="xs">
+                  <LuPencilLine />
+                </IconButton>
+              </Editable.EditTrigger>
+              <Editable.CancelTrigger asChild>
+                <IconButton variant="outline" size="xs">
+                  <LuX />
+                </IconButton>
+              </Editable.CancelTrigger>
+              <Editable.SubmitTrigger asChild>
+                <IconButton variant="outline" size="xs">
+                  <LuCheck />
+                </IconButton>
+              </Editable.SubmitTrigger>
+            </Editable.Control>
+          </Editable.Root>
+        </Flex>
+
+        <Flex gap={6}>
+          <IconGroup
             collection={rangeOptions}
-            value={[clock.range]}
+            value={clock.range}
             onValueChange={saveRange}
-            width="180px"
-          >
-            <Select.Label>Mode</Select.Label>
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder="Select mode" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>{" "}
-            <Select.Positioner>
-              <Select.Content>
-                {rangeOptions.items.map((option) => (
-                  <Select.Item item={option} key={option.value}>
-                    {option.label}
-                    <Select.ItemIndicator />
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Positioner>{" "}
-          </Select.Root>
-        </Flex>
-        <Flex>
-          <Select.Root
+            hint="Select range"
+          />
+
+          <IconGroup
             collection={granularityOptions}
-            value={[clock.granularity_minutes]}
+            value={clock.granularity_minutes}
             onValueChange={saveGranularity}
-            width="180px"
-          >
-            <Select.Label>Granularity</Select.Label>
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder="Select granularity" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>{" "}
-            <Select.Positioner>
-              <Select.Content>
-                {granularityOptions.items.map((option) => (
-                  <Select.Item item={option} key={option.value}>
-                    {option.label}
-                    <Select.ItemIndicator />
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Positioner>{" "}
-          </Select.Root>
-        </Flex>
-        <Flex>
-          <Select.Root
+            hint="Select granularity"
+          />
+
+          <IconGroup
             collection={modeOptions}
-            value={[clock.mode]}
+            value={clock.mode}
             onValueChange={saveMode}
-            width="180px"
-          >
-            <Select.Label>Style</Select.Label>
-            <Select.Control>
-              <Select.Trigger>
-                <Select.ValueText placeholder="Select mode" />
-              </Select.Trigger>
-              <Select.IndicatorGroup>
-                <Select.Indicator />
-              </Select.IndicatorGroup>
-            </Select.Control>{" "}
-            <Select.Positioner>
-              <Select.Content>
-                {modeOptions.items.map((option) => (
-                  <Select.Item item={option} key={option.value}>
-                    {option.label}
-                    <Select.ItemIndicator />
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Positioner>{" "}
-          </Select.Root>
+            hint="Select mode"
+          />
         </Flex>
       </Flex>
     </>
