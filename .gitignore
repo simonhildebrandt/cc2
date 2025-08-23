@@ -143,3 +143,5 @@ packages/server/pb_data/*
 packages/server/pocketbase*
 
 packages/client/dev/index.js
+
+.envrc

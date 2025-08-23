@@ -1,27 +1,13 @@
-import { useState, useContext, useEffect } from "react";
-import {
-  Fieldset,
-  Field,
-  Input,
-  Button,
-  Stack,
-  Dialog,
-  Flex,
-  Heading,
-} from "@chakra-ui/react";
+import { useContext, useEffect } from "react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import { useNavigate, useLocation } from "react-router";
 
 import { AuthContext } from "../services/auth-provider";
 import Link from "../components/link";
 
 export default function ({ children, authed = false }) {
-  const { pb, isAuthenticated, user, logout, login } = useContext(AuthContext);
-  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
-  const [error, setError] = useState(null);
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+  const { pb, loginLink, isAuthenticated, user, logout, login } =
+    useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,6 +18,42 @@ export default function ({ children, authed = false }) {
       );
     }
   }, [authed, isAuthenticated]);
+
+  return (
+    <Flex width="100%" height="100%" flexDirection="column">
+      <Flex
+        bgColor="bg.muted"
+        flexDirection="row"
+        justifyContent="space-between"
+        padding="4"
+        align="center"
+      >
+        <Heading>
+          <Link to="/">ClockCamera</Link>
+        </Heading>
+        {isAuthenticated ? (
+          <Flex>
+            <Button onClick={logout}>Logout</Button>
+          </Flex>
+        ) : (
+          <Link to={loginLink}>Login</Link>
+        )}
+      </Flex>
+      <Flex flexGrow={1} flexDirection="column" padding="4">
+        {children}
+      </Flex>
+    </Flex>
+  );
+}
+
+/*
+// Login dialog
+  const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
 
   function handleLogin() {
     login({ username, password }).catch((error) => {
@@ -53,24 +75,8 @@ export default function ({ children, authed = false }) {
     setLoginDialogOpen(open);
   }
 
-  return (
-    <Flex width="100%" height="100%" flexDirection="column">
-      <Flex
-        bgColor="bg.muted"
-        flexDirection="row"
-        justifyContent="space-between"
-        padding="4"
-        align="center"
-      >
-        <Heading>
-          <Link to="/">ClockCamera</Link>
-        </Heading>
-        {isAuthenticated ? (
-          <Flex>
-            <Button onClick={logout}>Logout</Button>
-          </Flex>
-        ) : (
-          <Dialog.Root
+
+<Dialog.Root
             open={loginDialogOpen}
             onOpenChange={updateLoginDialogOpen}
           >
@@ -87,7 +93,7 @@ export default function ({ children, authed = false }) {
                 <Dialog.Body>
                   <Fieldset.Root size="lg" maxW="md" invalid={!!error}>
                     <Stack>
-                      {/* <Fieldset.Legend>Login</Fieldset.Legend> */}
+
                       <Fieldset.HelperText>
                         Enter your username and password below.
                       </Fieldset.HelperText>
@@ -131,11 +137,5 @@ export default function ({ children, authed = false }) {
               </Dialog.Content>
             </Dialog.Positioner>
           </Dialog.Root>
-        )}
-      </Flex>
-      <Flex flexGrow={1} flexDirection="column" padding="4">
-        {children}
-      </Flex>
-    </Flex>
-  );
-}
+
+        */
