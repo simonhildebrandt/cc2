@@ -141,21 +141,21 @@ export default function ({ clockId }) {
             collection={rangeOptions}
             value={clock.range}
             onValueChange={saveRange}
-            hint="Select range"
+            hint="Choose 12 or 24 hour mode"
           />
 
           <IconGroup
             collection={granularityOptions}
             value={clock.granularity_minutes}
             onValueChange={saveGranularity}
-            hint="Select granularity"
+            hint="Choose increments of 1, 5, 10, or 15 minutes"
           />
 
           <IconGroup
             collection={modeOptions}
             value={clock.mode}
             onValueChange={saveMode}
-            hint="Select mode"
+            hint="Choose between split or single mode (single photos or hour/minute composites)"
           />
         </Flex>
       </Flex>

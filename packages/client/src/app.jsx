@@ -12,7 +12,7 @@ function Login() {
   const { login } = useContext(AuthContext);
   let [searchParams] = useSearchParams();
   let token = searchParams.get("lwl-token");
-  console.log({ token });
+
   useEffect(() => {
     if (token) {
       login(token)
@@ -25,7 +25,7 @@ function Login() {
     }
   }, [token, login]);
 
-  return "logging in!";
+  return;
 }
 
 export default function () {
