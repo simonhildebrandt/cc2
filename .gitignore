@@ -138,7 +138,9 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-*/**/.yarn
+*/**/.yarn/cache
+*/**/.yarn/install-state.gz
+
 packages/server/pb_data/*
 packages/server/pocketbase*
 

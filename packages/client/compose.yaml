@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    environment:
+      - PB_HOST=${PB_HOST}
+      - LWL_ID=${LWL_ID}
+    ports:
+      - "5000:80"

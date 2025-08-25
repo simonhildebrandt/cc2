@@ -1,0 +1,14 @@
+services:
+  client:
+    build: packages/client
+    environment:
+      - PB_HOST=${PB_HOST}
+      - LWL_ID=${LWL_ID}
+    ports:
+      - "5000:80"
+  server:
+    build: packages/server
+    environment:
+      - LWL_KEY=${LWL_KEY}
+    ports:
+      - "8080:8080"

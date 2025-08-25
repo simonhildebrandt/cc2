@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "serve": "web-dev-server -p 8000 -r dev --open --watch --app-index dev/index.html",
-    "watch": "yarn esbuild src/index.jsx --bundle --outfile=dev/index.js --watch --jsx=automatic --define:PB_HOST=\"'$PB_HOST'\" --define:LWL_ID=\"'$LWL_ID'\""
+    "watch": "yarn esbuild src/index.jsx --bundle --outfile=dev/index.js --watch --jsx=automatic --define:PB_HOST=\"'$PB_HOST'\" --define:LWL_ID=\"'$LWL_ID'\"",
+    "build_prod": "yarn esbuild src/index.jsx --bundle --outfile=public/index.js --jsx=automatic --define:PB_HOST=\"'$PB_HOST'\" --define:LWL_ID=\"'$LWL_ID'\""
   },
   "dependencies": {
     "@chakra-ui/react": "^3.24.1",
