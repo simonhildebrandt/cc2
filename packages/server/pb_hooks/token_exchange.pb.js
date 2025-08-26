@@ -15,9 +15,12 @@ routerAdd("POST", "/api/auth/jwt-exchange", function (e) {
     }
   }
 
+  let token;
+
   try {
     const request = e.requestInfo();
-    const token = request?.body?.token || 'missing-token';
+    $app.logger().info("Request", 'e', e, 'key', process.env.LWL_KEY);
+    token = request?.body?.token || 'missing-token';
     const claims = $security.parseJWT(token, process.env.LWL_KEY)
     const user = upsertUser(claims.email);
     const meta = { provider: "external-jwt", iss: 'https://login-with.link' };
