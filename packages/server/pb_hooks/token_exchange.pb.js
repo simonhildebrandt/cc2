@@ -8,6 +8,7 @@ routerAdd("POST", "/api/auth/jwt-exchange", function (e) {
       rec.load({
         email: email,
         username: email,
+        password: $security.randomString(16),
         verified: true,
       });
       $app.save(rec);
