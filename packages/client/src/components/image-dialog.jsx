@@ -85,7 +85,7 @@ export default function ({
                     capture="environment"
                     alignItems="stretch"
                     position="relative"
-                    accept={["image/png"]}
+                    accept={["image/*"]}
                     onFileAccept={uploadAccepted}
                   >
                     <FileUpload.HiddenInput />
