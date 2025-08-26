@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useSearchParams } from "react-router";
 
 import FrontPage from "./pages/front-page";
 import { Provider as ChakraProvider } from "./components/ui/provider";
+import { ColorModeProvider } from "./components/ui/color-mode";
 import ClocksPage from "./pages/clocks-page";
 import ClockDetailPage from "./pages/clock-detail-page";
 import ClockShowPage from "./pages/clock-show-page";
@@ -31,17 +32,19 @@ function Login() {
 export default function () {
   return (
     <ChakraProvider>
-      <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<FrontPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/clocks" element={<ClocksPage />} />
-            <Route path="/clocks/:id" element={<ClockDetailPage />} />
-            <Route path="/clocks/:id/show" element={<ClockShowPage />} />
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+      <ColorModeProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<FrontPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/clocks" element={<ClocksPage />} />
+              <Route path="/clocks/:id" element={<ClockDetailPage />} />
+              <Route path="/clocks/:id/show" element={<ClockShowPage />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </ColorModeProvider>
     </ChakraProvider>
   );
 }

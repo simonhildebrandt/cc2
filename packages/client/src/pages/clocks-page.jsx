@@ -6,6 +6,7 @@ import {
   VStack,
   IconButton,
   Image,
+  Skeleton,
 } from "@chakra-ui/react";
 import { TbClockHour2, TbClockEdit } from "react-icons/tb";
 import { useNavigate } from "react-router";
@@ -31,20 +32,106 @@ function ImageList({ clockId }) {
 
   const thumb = "0x128";
 
-  if (images == null) return;
+  if (images == null)
+    return (
+      <Flex flexGrow={1} gap={4} p={2}>
+        <Skeleton width="128px" height="128px" />
+        <Skeleton width="128px" height="128px" />
+        <Skeleton width="128px" height="128px" />
+      </Flex>
+    );
 
   return (
-    <Flex flexGrow={1} flexShrink={1} overflow="hidden">
+    <Flex
+      flexGrow={1}
+      flexShrink={1}
+      overflow="hidden"
+      flexWrap="nowrap"
+      gap={2}
+    >
       {images.length == 0 && <Flex color="fg.muted">No images yet</Flex>}
-      {images.map((image) => (
+      {images.slice(0, 10).map((image, index) => (
         <Image
           key={image.id}
+          index={index}
           src={pb.files.getURL(image, image.image, { thumb })}
           height="128px"
           width="128px"
           objectFit="contain"
           objectPosition="50% 50%"
         />
+      ))}
+    </Flex>
+  );
+}
+
+function ClockList({ clocks, loading, onDelete, onClick, onShow }) {
+  if (loading) {
+    return (
+      <Flex mt={4} direction="column" gap={2}>
+        <Skeleton height="100px" width="100%" mb={4} />
+        <Skeleton height="100px" width="100%" mb={4} />
+        <Skeleton height="100px" width="100%" mb={4} />
+      </Flex>
+    );
+  }
+
+  return clocks.length === 0 ? (
+    <Flex
+      width="100%"
+      height="100%"
+      alignItems="center"
+      justifyContent="center"
+      flexDirection="column"
+    >
+      <EmptyState.Root>
+        <EmptyState.Content>
+          <EmptyState.Indicator>
+            <TbClockHour2 />
+          </EmptyState.Indicator>
+          <VStack textAlign="center">
+            <EmptyState.Title>No clocks created yet</EmptyState.Title>
+            <EmptyState.Description>
+              Click the button below to create your first clock.
+            </EmptyState.Description>
+          </VStack>
+        </EmptyState.Content>
+      </EmptyState.Root>
+    </Flex>
+  ) : (
+    <Flex direction="column" gap={4} mt={4} borderRadius={8}>
+      {clocks.map((clock) => (
+        <Flex
+          key={clock.id}
+          onClick={() => onClick(clock.id)}
+          bgColor="bg.muted"
+          px={6}
+          py={4}
+          direction="column"
+          cursor="pointer"
+          gap={2}
+        >
+          <Flex>
+            <Flex justify="space-between" flexGrow={1} align="flex-end">
+              <Heading>{clock.name}</Heading>
+              <Flex color="fg.muted" align="center" gap={4}>
+                <IconButton
+                  size="md"
+                  variant="ghost"
+                  onClick={(e) => onShow(e, clock.id)}
+                >
+                  <FaEye />
+                </IconButton>
+                <Flex>
+                  {clock.granularity_minutes}min - {clock.range} hour -{" "}
+                  {clock.mode}
+                </Flex>
+                <DeleteControl onDelete={() => onDelete(clock.id)} />
+              </Flex>
+            </Flex>
+          </Flex>
+          <ImageList clockId={clock.id} />
+        </Flex>
       ))}
     </Flex>
   );
@@ -93,69 +180,22 @@ const ClocksPage = () => {
     pb.collection("clocks").delete(id);
   }
 
+  function handleClick(clockId) {
+    navigate(`/clocks/${clockId}`);
+  }
+
   return (
     <Layout authed={true}>
       <Flex width="100%" height="100%" flexDirection="column">
         <Heading>Your Clocks</Heading>
-        {clocks.length === 0 ? (
-          <Flex
-            width="100%"
-            height="100%"
-            alignItems="center"
-            justifyContent="center"
-            flexDirection="column"
-          >
-            <EmptyState.Root>
-              <EmptyState.Content>
-                <EmptyState.Indicator>
-                  <TbClockHour2 />
-                </EmptyState.Indicator>
-                <VStack textAlign="center">
-                  <EmptyState.Title>No clocks created yet</EmptyState.Title>
-                  <EmptyState.Description>
-                    Click the button below to create your first clock.
-                  </EmptyState.Description>
-                </VStack>
-              </EmptyState.Content>
-            </EmptyState.Root>
-          </Flex>
-        ) : (
-          <Flex direction="column" gap={4} mt={4} borderRadius={8}>
-            {clocks.map((clock) => (
-              <Flex
-                key={clock.id}
-                onClick={() => navigate(`/clocks/${clock.id}`)}
-                bgColor="bg.emphasized"
-                px={6}
-                py={4}
-                direction="column"
-                cursor="pointer"
-                gap={2}
-              >
-                <Flex>
-                  <Flex justify="space-between" flexGrow={1} align="flex-end">
-                    <Heading>{clock.name}</Heading>
-                    <Flex color="fg.muted" align="center" gap={4}>
-                      <IconButton
-                        size="md"
-                        variant="ghost"
-                        onClick={(e) => showClock(e, clock.id)}
-                      >
-                        <FaEye />
-                      </IconButton>
-                      <Flex>
-                        {clock.granularity_minutes}min - {clock.range} hour -{" "}
-                        {clock.mode}
-                      </Flex>
-                      <DeleteControl onDelete={() => handleDelete(clock.id)} />
-                    </Flex>
-                  </Flex>
-                </Flex>
-                <ImageList clockId={clock.id} />
-              </Flex>
-            ))}
-          </Flex>
-        )}
+
+        <ClockList
+          clocks={clocks}
+          loading={loading}
+          onDelete={handleDelete}
+          onShow={showClock}
+          onClick={handleClick}
+        />
 
         <Flex position="fixed" bottom={4} right={4}>
           <IconButton
