@@ -43,7 +43,7 @@ export default function ({ clock, setImageContent, imageContent }) {
           collection={hourOptions}
           value={[hour]}
           onValueChange={updateHour}
-          width="100px"
+          width="80px"
           variant={hour == "XX" ? "subtle" : "outline"}
         >
           <Select.Control>
@@ -72,7 +72,7 @@ export default function ({ clock, setImageContent, imageContent }) {
           collection={minutesOptions}
           value={[minute]}
           onValueChange={updateMinute}
-          width="100px"
+          width="80px"
           variant={minute == "XX" ? "subtle" : "outline"}
         >
           <Select.Control>

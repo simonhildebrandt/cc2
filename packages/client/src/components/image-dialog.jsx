@@ -8,7 +8,6 @@ import {
   FileUpload,
   Icon,
   Image,
-  createListCollection,
 } from "@chakra-ui/react";
 import { LuUpload } from "react-icons/lu";
 
