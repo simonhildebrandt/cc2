@@ -64,7 +64,7 @@ export default function ({
           <Dialog.Content>
             <Dialog.Header>
               <Dialog.Title>
-                {image ? "Update Image" : "Add Image"}
+                {image ? "Update Details" : "Add Image"}
               </Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
@@ -122,7 +122,7 @@ export default function ({
                       <Flex
                         direction="column"
                         gap={3}
-                        bgColor="#000A"
+                        bgColor="bg.subtle"
                         p={4}
                         align="center"
                       >
@@ -131,7 +131,9 @@ export default function ({
                         </Icon>
                         <FileUpload.DropzoneContent>
                           <Flex>Drag and drop files here</Flex>
-                          <Flex color="fg.muted">.png, .jpg up to 5MB</Flex>
+                          <Flex color="fg.emphasized">
+                            .png, .jpg up to 5MB
+                          </Flex>
                         </FileUpload.DropzoneContent>
                       </Flex>
                     </FileUpload.Dropzone>

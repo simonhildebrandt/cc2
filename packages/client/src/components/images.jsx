@@ -53,7 +53,7 @@ function Image({ image, mode, onClick }) {
         py={2}
         pr={2}
         pl={4}
-        bgColor={error ? "orange.900" : "bg.muted"}
+        bgColor={error ? "bg.error" : "bg.muted"}
         width="100%"
         justify="space-between"
         align="center"
