@@ -6,6 +6,7 @@ import {
   Editable,
   IconButton,
   createListCollection,
+  Separator,
 } from "@chakra-ui/react";
 import { LuCheck, LuPencilLine, LuX } from "react-icons/lu";
 import {
@@ -136,13 +137,14 @@ export default function ({ clockId }) {
           </Editable.Root>
         </Flex>
 
-        <Flex gap={6}>
+        <Flex gap={2}>
           <IconGroup
             collection={rangeOptions}
             value={clock.range}
             onValueChange={saveRange}
             hint="Choose 12 or 24 hour mode"
           />
+          <Separator orientation="vertical" />
 
           <IconGroup
             collection={granularityOptions}
@@ -150,6 +152,7 @@ export default function ({ clockId }) {
             onValueChange={saveGranularity}
             hint="Choose increments of 1, 5, 10, or 15 minutes"
           />
+          <Separator orientation="vertical" />
 
           <IconGroup
             collection={modeOptions}

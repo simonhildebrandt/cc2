@@ -10,8 +10,11 @@ export default function IconGroup({ collection, hint, value, onValueChange }) {
             key={itemValue}
             onClick={() => onValueChange({ value: itemValue })}
             aria-label={label}
-            size="lg"
+            size="md"
             variant={itemValue == value ? "solid" : "surface"}
+            h={8}
+            w={8}
+            minW={8}
           >
             {icon}
           </IconButton>
