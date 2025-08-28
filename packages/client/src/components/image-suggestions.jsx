@@ -5,16 +5,18 @@ import { AuthContext } from "../services/auth-provider";
 
 function* generateImageContents(clock) {
   const [startHour, endHour] = clock.range == "12" ? [1, 12] : [0, 23];
-  for (let hour = startHour; hour <= endHour; hour++) {
-    if (clock.mode == "split") {
+
+  if (clock.mode == "split") {
+    for (let hour = startHour; hour <= endHour; hour++) {
       yield `${String(hour).padStart(2, "0")}:XX`;
     }
-
     for (let minute = 0; minute < 60; minute += clock.granularity_minutes) {
-      if (clock.mode == "single") {
+      yield `XX:${String(minute).padStart(2, "0")}`;
+    }
+  } else {
+    for (let hour = startHour; hour <= endHour; hour++) {
+      for (let minute = 0; minute < 60; minute += clock.granularity_minutes) {
         yield `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
-      } else {
-        yield `${String(hour).padStart(2, "0")}:XX`;
       }
     }
   }
