@@ -7,6 +7,7 @@ import Layout from "../components/layout";
 import ClockSettings from "../components/clock-settings";
 import Images from "../components/images";
 import ImageDialog from "../components/image-dialog";
+import ImageSuggestions from "../components/image-suggestions";
 
 export default function () {
   let { id } = useParams();
@@ -49,37 +50,44 @@ export default function () {
     setDialogOpen(status);
   }
 
+  function setContent(content) {
+    setImageContent(content);
+    setUploadedFile(null);
+    setDialogOpen(true);
+  }
+
   return (
     <Layout authed={true}>
-      <ImageDialog
-        clockId={id}
-        dialogOpen={dialogOpen}
-        setDialogOpen={handleDialogOpen}
-        uploadedFile={uploadedFile}
-        uploadAccepted={uploadAccepted}
-        createImage={createImage}
-        updateImage={updateImage}
-        imageContent={imageContent}
-        setImageContent={setImageContent}
-        image={selectedImage}
-      />
-
-      <Flex width="100%" justifyContent="space-between" align="center">
-        <ClockSettings clockId={id} />
-      </Flex>
-      <Flex flexGrow={1}>
-        <Images clockId={id} onClick={handleImageClick} />
-      </Flex>
-
-      <Flex position="fixed" bottom={4} right={4}>
-        <IconButton
-          rounded="full"
-          aria-label="Create Clock"
-          onClick={() => setDialogOpen(true)}
-          size="xl"
-        >
-          <LuImagePlus size="100px" />
-        </IconButton>
+      <Flex direction="column" gap={4}>
+        <ImageDialog
+          clockId={id}
+          dialogOpen={dialogOpen}
+          setDialogOpen={handleDialogOpen}
+          uploadedFile={uploadedFile}
+          uploadAccepted={uploadAccepted}
+          createImage={createImage}
+          updateImage={updateImage}
+          imageContent={imageContent}
+          setImageContent={setImageContent}
+          image={selectedImage}
+        />
+        <Flex width="100%" justifyContent="space-between" align="center">
+          <ClockSettings clockId={id} />
+        </Flex>
+        <ImageSuggestions id={id} setContent={setContent} />
+        <Flex flexGrow={1}>
+          <Images clockId={id} onClick={handleImageClick} />
+        </Flex>
+        <Flex position="fixed" bottom={4} right={4}>
+          <IconButton
+            rounded="full"
+            aria-label="Create Clock"
+            onClick={() => setDialogOpen(true)}
+            size="xl"
+          >
+            <LuImagePlus size="100px" />
+          </IconButton>
+        </Flex>
       </Flex>
     </Layout>
   );

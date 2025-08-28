@@ -6,10 +6,11 @@ export default function ({ clock, setImageContent, imageContent }) {
 
   const split = mode == "split";
 
+  const offset = range == "12" ? 1 : 0;
   const hourOptions = createListCollection({
     items: new Array(parseInt(range)).fill(0).map((_v, i) => ({
-      label: (i + 1).toString().padStart(2, "0"),
-      value: (i + 1).toString().padStart(2, "0"),
+      label: (i + offset).toString().padStart(2, "0"),
+      value: (i + offset).toString().padStart(2, "0"),
     })),
   });
 
