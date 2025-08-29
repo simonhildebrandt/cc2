@@ -1,4 +1,5 @@
 import { Flex, Select, createListCollection } from "@chakra-ui/react";
+import OptionsPanel from "./options-panel";
 
 export default function ({ clock, setImageContent, imageContent }) {
   const [hour, minute] = imageContent.split(":");
@@ -26,75 +27,33 @@ export default function ({ clock, setImageContent, imageContent }) {
     }, []),
   });
 
-  function updateHour({ value }) {
+  function updateHour(value) {
     const minutePortion = split ? "XX" : minute;
-    setImageContent(`${value[0]}:${minutePortion}`);
+    setImageContent(`${value}:${minutePortion}`);
   }
 
-  function updateMinute({ value }) {
+  function updateMinute(value) {
     const hourPortion = split ? "XX" : hour;
-    setImageContent(`${hourPortion}:${value[0]}`);
+    setImageContent(`${hourPortion}:${value}`);
   }
 
   return (
     <Flex align="center" gap={4}>
-      <Flex align="center" gap={1}>
+      <Flex align="center" gap={2}>
         H
-        <Select.Root
-          collection={hourOptions}
-          value={[hour]}
-          onValueChange={updateHour}
-          width="80px"
-          variant={hour == "XX" ? "subtle" : "outline"}
-        >
-          <Select.Control>
-            <Select.Trigger>
-              <Select.ValueText placeholder="Select hour" />
-            </Select.Trigger>
-            <Select.IndicatorGroup>
-              <Select.Indicator />
-            </Select.IndicatorGroup>
-          </Select.Control>
-          <Select.Positioner>
-            <Select.Content>
-              {hourOptions.items.map((option) => (
-                <Select.Item item={option} key={option.value}>
-                  {option.label}
-                  <Select.ItemIndicator />
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Positioner>
-        </Select.Root>
+        <OptionsPanel
+          value={hour}
+          options={hourOptions}
+          onChoice={updateHour}
+        />
       </Flex>
-      <Flex align="center" gap={1}>
+      <Flex align="center" gap={2}>
         M
-        <Select.Root
-          collection={minutesOptions}
-          value={[minute]}
-          onValueChange={updateMinute}
-          width="80px"
-          variant={minute == "XX" ? "subtle" : "outline"}
-        >
-          <Select.Control>
-            <Select.Trigger>
-              <Select.ValueText placeholder="Select minute" />
-            </Select.Trigger>
-            <Select.IndicatorGroup>
-              <Select.Indicator />
-            </Select.IndicatorGroup>
-          </Select.Control>
-          <Select.Positioner>
-            <Select.Content>
-              {minutesOptions.items.map((option) => (
-                <Select.Item item={option} key={option.value}>
-                  {option.label}
-                  <Select.ItemIndicator />
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Positioner>
-        </Select.Root>
+        <OptionsPanel
+          value={minute}
+          options={minutesOptions}
+          onChoice={updateMinute}
+        />
       </Flex>
     </Flex>
   );
