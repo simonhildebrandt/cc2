@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Flex, Popover, Button, Grid } from "@chakra-ui/react";
 
-export default function ({ value, options, onChoice }) {
+export default function ({ value, options, onChoice, pageHint }) {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleChoice(val) {
@@ -9,8 +9,8 @@ export default function ({ value, options, onChoice }) {
     onChoice(val);
   }
 
-  const page = Math.ceil(Math.sqrt(options.items.length));
-
+  const page = pageHint ? pageHint : Math.ceil(Math.sqrt(options.items.length));
+  console.log({ page });
   return (
     <Popover.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Popover.Trigger asChild>

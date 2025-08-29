@@ -1,6 +1,13 @@
 import { Flex, Select, createListCollection } from "@chakra-ui/react";
 import OptionsPanel from "./options-panel";
 
+const minutePageHints = {
+  1: 6,
+  5: 4,
+  10: 3,
+  15: 4,
+};
+
 export default function ({ clock, setImageContent, imageContent }) {
   const [hour, minute] = imageContent.split(":");
   const { mode, range, granularity_minutes } = clock;
@@ -53,6 +60,7 @@ export default function ({ clock, setImageContent, imageContent }) {
           value={minute}
           options={minutesOptions}
           onChoice={updateMinute}
+          pageHint={minutePageHints[granularity_minutes]}
         />
       </Flex>
     </Flex>
